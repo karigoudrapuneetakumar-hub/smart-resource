@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Campus Resource Manager</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- Boxicons for UI Icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- 1. AUTHENTICATION VIEW -->
+    <div id="auth-view" class="view active">
+        <div class="auth-container">
+            <div class="auth-right">
+                <div class="auth-form-wrapper">
+                    <div class="auth-branding-centered">
+                        <i class='bx bxs-graduation'></i>
+                        <span>Smart Campus Resource Manager</span>
+                    </div>
+                    <h2 id="auth-title">Welcome back</h2>
+                    <p class="subtitle" id="auth-subtitle">Access your campus resources, real-time availability, and
+                        shared notes.</p>
+
+                    <form id="auth-form">
+                        <div class="input-group" id="name-group" style="display: none;">
+                            <label for="name">Full Name</label>
+                            <div class="input-icon">
+                                <input type="text" id="name" placeholder="Alex Student">
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="email">Student Email</label>
+                            <div class="input-icon">
+                                <input type="email" id="email" placeholder="student@university.edu" required>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="password">Password</label>
+                            <div class="input-icon">
+                                <input type="password" id="password" placeholder="••••••••" required>
+                                <button type="button" class="toggle-password"><i class='bx bx-hide'></i></button>
+                            </div>
+                            <div class="forgot-password" id="forgot-password-div">
+                                <a href="#">Forgot password?</a>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="auth-submit-btn" class="btn btn-primary btn-block btn-lg">
+                            Sign In <i class='bx bx-right-arrow-alt'></i>
+                        </button>
+
+                        <div class="auth-divider">
+                            <span>or continue with</span>
+                        </div>
+
+                        <button type="button" class="btn btn-outline btn-block btn-google">
+                            <i class='bx bxl-google'></i> University Google Account
+                        </button>
+                    </form>
+
+                    <p class="auth-footer"><span id="auth-prompt">Don't have an account?</span> <a href="#"
+                            id="toggle-auth">Request access</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. MAIN APP VIEW -->
+    <div id="app-view" class="view">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class='bx bxs-graduation'></i>
+                    <span style="font-size: 1rem;">Smart Campus Resource Manager</span>
+                </div>
+                <button class="menu-toggle"><i class='bx bx-menu'></i></button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-title">Menu</li>
+                    <li class="nav-item">
+                        <button class="nav-link active" data-target="dashboard">
+                            <i class='bx bx-grid-alt'></i>
+                            <span>Dashboard</span>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" data-target="spaces">
+                            <i class='bx bx-map-pin'></i>
+                            <span>Study Spaces</span>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" data-target="notes">
+                            <i class='bx bx-bookmark-alt'></i>
+                            <span>Notes Hub</span>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" data-target="labs">
+                            <i class='bx bx-desktop'></i>
+                            <span>Lab Schedule</span>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" data-target="classes">
+                            <i class='bx bx-calendar-event'></i>
+                            <span>Class Schedule</span>
+                        </button>
+                    </li>
+                </ul>
+
+                <ul class="nav-list bottom">
+                    <li class="nav-title">Settings</li>
+                    <li class="nav-item">
+                        <button class="nav-link toggle-theme">
+                            <i class='bx bx-moon'></i>
+                            <span>Dark Mode</span>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link logout-btn" id="logout-btn">
+                            <i class='bx bx-log-out'></i>
+                            <span>Log Out</span>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-user">
+                <img src="https://ui-avatars.com/api/?name=Student+User&background=6366f1&color=fff" alt="User Avatar"
+                    class="avatar">
+                <div class="user-info">
+                    <h4 id="user-name-display">Alex Student</h4>
+                    <p>Computer Science</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="search-bar">
+                    <i class='bx bx-search'></i>
+                    <input type="text" placeholder="Search spaces, notes, or labs...">
+                </div>
+
+                <div class="topbar-actions">
+                    <button class="icon-btn notification-btn">
+                        <i class='bx bx-bell'></i>
+                        <span class="badge">3</span>
+                    </button>
+                    <button class="btn btn-primary" id="quick-check-in-btn">
+                        <i class='bx bx-qr-scan'></i> Check In
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dashboard View -->
+            <div id="view-dashboard" class="page-view active">
+                <div class="page-header">
+                    <div>
+                        <h1>Dashboard</h1>
+                        <p>Welcome back, here's what's happening on campus today.</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon primary"><i class='bx bxs-user-check'></i></div>
+                        <div class="stat-info">
+                            <h3>Current Status</h3>
+                            <h2 id="current-status-text">Not Checked In</h2>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon success"><i class='bx bxs-compass'></i></div>
+                        <div class="stat-info">
+                            <h3>Open Labs</h3>
+                            <h2>4 Available</h2>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon warning"><i class='bx bxs-book-open'></i></div>
+                        <div class="stat-info">
+                            <h3>New Notes</h3>
+                            <h2>12 Uploads</h2>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon danger"><i class='bx bxs-hot'></i></div>
+                        <div class="stat-info">
+                            <h3>Busy Space</h3>
+                            <h2>Library Floor 2</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- Quick Schedule -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Upcoming Labs</h3>
+                            <button class="btn-text">View All</button>
+                        </div>
+                        <ul class="timeline" id="dashboard-schedule">
+                            <!-- Populated via JS -->
+                        </ul>
+                    </div>
+
+                    <!-- Popular Spaces -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>Trending Study Spaces</h3>
+                        </div>
+                        <div class="space-list" id="dashboard-spaces">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spaces (Check-in) View -->
+            <div id="view-spaces" class="page-view">
+                <div class="page-header">
+                    <div>
+                        <h1>Study Spaces</h1>
+                        <p>Find real-time availability and check-in to study areas.</p>
+                    </div>
+                    <div class="header-actions">
+                        <div class="filter-group">
+                            <select id="space-building-filter" class="select-input">
+                                <option value="all">All Buildings</option>
+                                <option value="library">Main Library</option>
+                                <option value="engineering">Engineering Block</option>
+                                <option value="arts">Arts Center</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="spaces-grid" id="spaces-container">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+
+            <!-- Notes Hub View -->
+            <div id="view-notes" class="page-view">
+                <div class="page-header">
+                    <div>
+                        <h1>Notes Hub</h1>
+                        <p>Access and share study materials categorized by subject.</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-primary" id="upload-note-btn">
+                            <i class='bx bx-upload'></i> Upload Notes
+                        </button>
+                    </div>
+                </div>
+
+                <div class="notes-toolbar">
+                    <div class="search-box">
+                        <i class='bx bx-search'></i>
+                        <input type="text" id="note-search" placeholder="Search course codes, topics...">
+                    </div>
+                    <div class="tags-filter" id="notes-tags">
+                        <button class="tag active" data-subject="all">All</button>
+                        <button class="tag" data-subject="CS">Comp Sci</button>
+                        <button class="tag" data-subject="MATH">Math</button>
+                        <button class="tag" data-subject="PHY">Physics</button>
+                        <button class="tag" data-subject="LIT">Literature</button>
+                    </div>
+                </div>
+
+                <div class="notes-grid" id="notes-container">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+
+            <!-- Lab Schedule View -->
+            <div id="view-labs" class="page-view">
+                <div class="page-header">
+                    <div>
+                        <h1>Lab Schedule</h1>
+                        <p>Real-time view of computer lab availability and bookings.</p>
+                    </div>
+                    <div class="header-actions date-picker">
+                        <button class="icon-btn"><i class='bx bx-chevron-left'></i></button>
+                        <span class="current-date" id="lab-date-display">Today, Oct 24</span>
+                        <button class="icon-btn"><i class='bx bx-chevron-right'></i></button>
+                    </div>
+                </div>
+
+                <div class="lab-filters">
+                    <button class="btn-filter active" data-lab="all">All Labs</button>
+                    <button class="btn-filter" data-lab="hardware">Hardware Labs</button>
+                    <button class="btn-filter" data-lab="software">Software Labs</button>
+                    <button class="btn-filter" data-lab="database">Database Labs</button>
+                </div>
+
+                <div class="schedule-container">
+                    <div class="time-axis">
+                        <span>08:00</span><span>09:00</span><span>10:00</span>
+                        <span>11:00</span><span>12:00</span><span>13:00</span>
+                        <span>14:00</span><span>15:00</span><span>16:00</span>
+                        <span>17:00</span><span>18:00</span>
+                    </div>
+                    <div class="labs-timeline" id="labs-container">
+                        <!-- Populated via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Class Schedule View -->
+            <div id="view-classes" class="page-view">
+                <div class="page-header">
+                    <div>
+                        <h1>Class Schedule</h1>
+                        <p>Regular theory class schedule across the week.</p>
+                    </div>
+                    <div class="header-actions">
+                        <span class="current-date" id="class-date-display" style="padding-right: 1rem; font-weight: 500;">Filter by Day: </span>
+                    </div>
+                </div>
+
+                <div class="lab-filters" id="class-day-filters">
+                    <button class="btn-filter active" data-day="Monday">Monday</button>
+                    <button class="btn-filter" data-day="Tuesday">Tuesday</button>
+                    <button class="btn-filter" data-day="Wednesday">Wednesday</button>
+                    <button class="btn-filter" data-day="Thursday">Thursday</button>
+                    <button class="btn-filter" data-day="Friday">Friday</button>
+                    <button class="btn-filter" data-day="Saturday">Saturday</button>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="panel" style="width: 100%; grid-column: 1 / -1;">
+                        <div class="panel-header">
+                            <h3 id="class-list-header">Classes for Monday</h3>
+                        </div>
+                        <div class="timeline-horizontal" id="classes-list-container">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Modals & Overlays -->
+    <div class="modal-overlay" id="checkin-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Check In</h2>
+                <button class="close-modal"><i class='bx bx-x'></i></button>
+            </div>
+            <div class="modal-body">
+                <p>You are about to check in to <strong id="checkin-location-name">--</strong>.</p>
+                <form id="checkin-form">
+                    <div class="input-group">
+                        <label>Expected Duration</label>
+                        <select id="checkin-duration" class="select-input">
+                            <option value="1">1 Hour</option>
+                            <option value="2">2 Hours</option>
+                            <option value="3">3 Hours</option>
+                            <option value="4+">4+ Hours</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Doing what?</label>
+                        <input type="text" placeholder="e.g. Studying for Midterms" id="checkin-activity">
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-outline cancel-modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Confirm Check-in</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="upload-modal">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <h2>Upload Notes</h2>
+                <button class="close-modal"><i class='bx bx-x'></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="upload-form">
+                    <div class="upload-dropzone" id="dropzone">
+                        <i class='bx bx-cloud-upload upload-icon'></i>
+                        <h3>Drag & Drop PDF here</h3>
+                        <p>or click to browse</p>
+                        <input type="file" id="file-input" accept=".pdf" hidden>
+                    </div>
+                    <div class="selected-file" id="selected-file" style="display: none;">
+                        <i class='bx bxs-file-pdf'></i>
+                        <span id="filename-display">filename.pdf</span>
+                        <button type="button" id="remove-file"><i class='bx bx-x'></i></button>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label>Course Code</label>
+                            <input type="text" placeholder="e.g. CS101" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Subject</label>
+                            <select required class="select-input">
+                                <option value="CS">Computer Science</option>
+                                <option value="MATH">Mathematics</option>
+                                <option value="PHY">Physics</option>
+                                <option value="LIT">Literature</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Title / Description</label>
+                        <input type="text" placeholder="e.g. Midterm 1 Study Guide" required>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-outline cancel-modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Upload <i class='bx bx-upload'></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
